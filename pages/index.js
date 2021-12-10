@@ -26,17 +26,17 @@ export default function Home() {
             <p>Learn about TCGs and how to play them from experts.</p>
           </a>
 
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>CSV Convert &rarr;</h2>
-            <p>Convert inventory CSVs easily so you can import anywhere.</p>
-          </a>
-
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
           >
             <h2>Play Groups &rarr;</h2>
             <p>Search for people playing your TCG near you.</p>
+          </a>
+
+          <a href="https://nextjs.org/docs" className={styles.card}>
+            <h2>CSV Convert &rarr;</h2>
+            <p>Convert inventory CSVs so you can import anywhere.</p>
           </a>
 
           <a
