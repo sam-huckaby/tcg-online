@@ -13,8 +13,12 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          TCG Coach - Keep Learning
+          TCG Coach
         </h1>
+
+        <p className={styles.description}>
+          Keep Learning
+        </p>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
@@ -41,7 +45,7 @@ export default function Home() {
           >
             <h2>Purchase &rarr;</h2>
             <p>
-              Buy new cards to fuel your collection and love of the game.
+              Find ways to buy new cards to fuel your game.
             </p>
           </a>
         </div>
