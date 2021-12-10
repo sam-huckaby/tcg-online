@@ -13,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <span id="t_card">T</span><span id="c_card">C</span><span id="g_card">G</span> Coach
+          <span id={styles.t_card}>T</span><span id={styles.c_card}>C</span><span id={styles.g_card}>G</span> Coach
         </h1>
 
         <p className={styles.description}>
