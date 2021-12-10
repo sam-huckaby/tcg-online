@@ -13,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          TCG Coach
+          <span id="t_card">T</span><span id="c_card">C</span><span id="g_card">G</span> Coach
         </h1>
 
         <p className={styles.description}>
