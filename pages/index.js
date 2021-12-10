@@ -21,14 +21,14 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Card Dictionary &rarr;</h2>
-            <p>Find in-depth information about various TCG cards.</p>
-          </a>
-
           <a href="https://nextjs.org/learn" className={styles.card}>
             <h2>Learn &rarr;</h2>
             <p>Learn about TCGs and how to play them from experts.</p>
+          </a>
+
+          <a href="https://nextjs.org/docs" className={styles.card}>
+            <h2>CSV Convert &rarr;</h2>
+            <p>Convert inventory CSVs easily so you can import anywhere.</p>
           </a>
 
           <a
