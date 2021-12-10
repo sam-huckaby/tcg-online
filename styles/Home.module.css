@@ -123,6 +123,8 @@
 #c_card:hover,
 #g_card:hover {
   z-index: 20;
+  cursor: pointer;
+  background-color: rgb(200, 200, 200);
 }
 
 #c_card {
