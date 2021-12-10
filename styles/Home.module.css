@@ -124,7 +124,7 @@
 #g_card:hover {
   z-index: 20;
   cursor: pointer;
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(240, 240, 240);
 }
 
 #c_card {
