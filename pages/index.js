@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -17,37 +18,37 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Keep Learning
+          Never Stop Learning.
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about TCGs and how to play them from experts.</p>
-          </a>
+          <Link href="/learn/mtg-getting-started">
+            <a className={styles.card}>
+              <h2>Learn &rarr;</h2>
+              <p>Learn about TCGs and how to play them from experts.</p>
+            </a>
+          </Link>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Play Groups &rarr;</h2>
-            <p>Search for people playing your TCG near you.</p>
-          </a>
+          <Link href="/play-groups/find">
+            <a className={styles.card}>
+              <h2>Play Groups &rarr;</h2>
+              <p>Search for people playing your TCG near you.</p>
+            </a>
+          </Link>
 
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>CSV Convert &rarr;</h2>
-            <p>Convert inventory CSVs so you can import anywhere.</p>
-          </a>
+          <Link href="/utils/convert-csv">
+            <a className={styles.card}>
+              <h2>CSV Convert &rarr;</h2>
+              <p>Convert inventory CSVs so you can import anywhere.</p>
+            </a>
+          </Link>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Purchase &rarr;</h2>
-            <p>
-              Find ways to buy new cards to fuel your game.
-            </p>
-          </a>
+          <Link href="/marketplace/buy-cards">
+            <a className={styles.card}>
+              <h2>Purchase &rarr;</h2>
+              <p>Find ways to buy new cards to fuel your game.</p>
+            </a>
+          </Link>
         </div>
       </main>
 
