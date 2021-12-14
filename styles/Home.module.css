@@ -1,5 +1,6 @@
 .container {
   padding: 0 2rem;
+  overflow-x: hidden;
 }
 
 .main {
@@ -40,9 +41,10 @@
 }
 
 .title {
-  margin: 0;
+  margin-left: 15px;
   line-height: 1.15;
   font-size: 4rem;
+  transform: rotate(10deg);
 }
 
 .title,
@@ -51,9 +53,11 @@
 }
 
 .description {
-  margin: 4rem 0;
+  margin: 3rem 0;
   line-height: 1.5;
   font-size: 1.5rem;
+  color: white;
+  transform: rotate(10deg);
 }
 
 .code {
@@ -124,7 +128,16 @@
 #g_card:hover {
   z-index: 20;
   cursor: pointer;
+}
+
+#t_card:hover {
   background-color: rgb(230, 240, 255);
+}
+#c_card:hover {
+  background-color: rgb(230, 255, 240);
+}
+#g_card:hover {
+  background-color: rgb(255, 230, 240);
 }
 
 #c_card {
@@ -144,6 +157,15 @@
   background-color: white;
   z-index: 5;
   position: relative;
+}
+
+.tiltSection {
+  background-color: rgb(83, 163, 209);
+  transform: rotate(-10deg);
+  margin-top: -60px;
+  margin-bottom: 60px;
+  width: 150%;
+  padding: 40px 0 10px 0;
 }
 
 @media (max-width: 600px) {
