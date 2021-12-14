@@ -7,10 +7,24 @@
     min-height: 100vh;
     padding: 4rem 0;
     flex: 1;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
+}
+
+.big-title a {
+    color: #0070f3;
+    text-decoration: none;
+}
+  
+.big-title a:hover,
+.big-title a:focus,
+.big-title a:active {
+    text-decoration: underline;
+}
+  
+.big-title {
+    margin-left: 15px;
+    line-height: 1.15;
+    font-size: 4rem;
+    transform: rotate(-10deg);
 }
 
 .title {
@@ -18,12 +32,13 @@
     line-height: 1.15;
     font-size: 2rem;
     transform: rotate(-10deg);
-  }
+}
   
-  .title,
-  .description {
+.big-title,
+.title,
+.description {
     text-align: center;
-  }
+}
 
 .description {
     margin: 1rem 0;
@@ -33,23 +48,59 @@
     transform: rotate(-10deg);
 }
 
-.tiltSection {
-    // background-color: rgb(83, 163, 209);
-    // transform: rotate(-10deg);
-    // margin-top: -60px;
-    // margin-bottom: 60px;
-    // width: 150%;
-    // padding: 40px 0 10px 0;
+#t_card {
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 0 5px;
+    transform: rotate(-18deg) translateX(2px) translateY(7px);
+    display: inline-block;
+    background-color: white;
+    position: relative;
+    z-index: 15;
+  }
+  
+  #t_card:hover,
+  #c_card:hover,
+  #g_card:hover {
+    z-index: 20;
+    cursor: pointer;
+  }
+  
+  #t_card:hover {
+    background-color: rgb(230, 240, 255);
+  }
+  #c_card:hover {
+    background-color: rgb(230, 255, 240);
+  }
+  #g_card:hover {
+    background-color: rgb(255, 230, 240);
+  }
+  
+  #c_card {
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 10;
+    transform: rotate( 0) translateX(0) translateY(0);
+    position: relative;
+  }
+  
+  #g_card {
+    border: 3px solid black;
+    border-radius: 5px;
+    transform: rotate(18deg) translateX(-2px) translateY(5px);
+    display: inline-block;
+    background-color: white;
+    z-index: 5;
+    position: relative;
+  }
 
+.tiltSection {
+    padding: 10px 0 30px 0;
     background-color: lightgray;
     transform: rotate(10deg);
-    // width: 100%;
-    margin: 0 -55px;
+    margin: 0 -75px;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.box {
-    background-color: red;
 }
