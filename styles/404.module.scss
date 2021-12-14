@@ -1,0 +1,55 @@
+.container {
+    padding: 0 2rem;
+    overflow-x: hidden;
+}
+
+.main {
+    min-height: 100vh;
+    padding: 4rem 0;
+    flex: 1;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+}
+
+.title {
+    margin-left: -9px;
+    line-height: 1.15;
+    font-size: 2rem;
+    transform: rotate(-10deg);
+  }
+  
+  .title,
+  .description {
+    text-align: center;
+  }
+
+.description {
+    margin: 1rem 0;
+    line-height: 1.5;
+    font-size: 1.5rem;
+    color: black;
+    transform: rotate(-10deg);
+}
+
+.tiltSection {
+    // background-color: rgb(83, 163, 209);
+    // transform: rotate(-10deg);
+    // margin-top: -60px;
+    // margin-bottom: 60px;
+    // width: 150%;
+    // padding: 40px 0 10px 0;
+
+    background-color: lightgray;
+    transform: rotate(10deg);
+    // width: 100%;
+    margin: 0 -55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box {
+    background-color: red;
+}
