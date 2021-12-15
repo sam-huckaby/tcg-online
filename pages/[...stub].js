@@ -30,7 +30,7 @@ const Lost = () => {
                             </a>
                         </Link>
                         <h1 className={styles.title}>
-                            We exhausted our library, but couldn't find that one.
+                            We exhausted our library, but couldn&apos;t find that one.
                         </h1>
                     </div>
                 </div>
