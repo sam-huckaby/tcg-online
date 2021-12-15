@@ -1,3 +1,5 @@
+@import 'colors';
+
 .container {
   padding: 0 2rem;
   overflow-x: hidden;
@@ -30,7 +32,7 @@
 }
 
 .title a {
-  color: #0070f3;
+  color: $linkColor;
   text-decoration: none;
 }
 
@@ -95,8 +97,17 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: $primary;
+  border-color: $primary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card:hover,
+  .card:focus,
+  .card:active {
+    color: $primaryDark;
+    border-color: $primaryDark;
+  }
 }
 
 .card h2 {
@@ -163,12 +174,18 @@
 }
 
 .tiltSection {
-  background-color: rgb(83, 163, 209);
+  background-color: $primary;
   transform: rotate(-10deg);
   margin-top: -60px;
   margin-bottom: 60px;
   width: 150%;
   padding: 40px 0 10px 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tiltSection {
+    background-color: $primaryDark;
+  }
 }
 
 @media (max-width: 600px) {
