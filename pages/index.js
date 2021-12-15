@@ -45,10 +45,10 @@ export default function Home() {
             </a>
           </Link>
 
-          <Link href="/marketplace/buy-cards">
+          <Link href="/utils/mtg-counter">
             <a className={styles.card}>
-              <h2>Purchase &rarr;</h2>
-              <p>Find ways to buy new cards to fuel your game.</p>
+              <h2>Play Magic &rarr;</h2>
+              <p>Use the TCG Online MTG tracker tool.</p>
             </a>
           </Link>
         </div>

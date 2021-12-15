@@ -24,14 +24,14 @@
     margin-left: 15px;
     line-height: 1.15;
     font-size: 4rem;
-    transform: rotate(-10deg);
+    // transform: rotate(-10deg);
 }
 
 .title {
     margin-left: -9px;
     line-height: 1.15;
     font-size: 2rem;
-    transform: rotate(-10deg);
+    // transform: rotate(-10deg);
 }
   
 .big-title,
@@ -104,3 +104,14 @@
     flex-direction: column;
     align-items: center;
 }
+
+.bounding-box {
+    width: 90vw;
+    transform: rotate(-10deg);
+}
+
+// @media (max-width: 600px) {
+//     .tiltSection {
+//         margin: 0 -15px;
+//     }
+// }

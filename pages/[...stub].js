@@ -21,20 +21,18 @@ const Lost = () => {
             </Head>
             <main className={styles.main}>
                 <div className={styles.tiltSection}>
-                    <Link href="/">
-                        <a>
-                            <h1 className={styles['big-title']}>
-                                <span id={styles.t_card}>T</span><span id={styles.c_card}>C</span><span id={styles.g_card}>G</span> Online
-                            </h1>
-                        </a>
-                    </Link>
-                    <h1 className={styles.title}>
-                        We exhausted our library, but couldn't find that one.
-                    </h1>
-
-                    {/* <p className={styles.description}>
-                        `/{missed}`
-                    </p> */}
+                    <div className={styles['bounding-box']}>
+                        <Link href="/">
+                            <a>
+                                <h1 className={styles['big-title']}>
+                                    <span id={styles.t_card}>T</span><span id={styles.c_card}>C</span><span id={styles.g_card}>G</span> Online
+                                </h1>
+                            </a>
+                        </Link>
+                        <h1 className={styles.title}>
+                            We exhausted our library, but couldn't find that one.
+                        </h1>
+                    </div>
                 </div>
             </main>
         </div>
