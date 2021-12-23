@@ -11,6 +11,9 @@ class PreGame extends Component {
             startingLife: null,
             begin: false,
         };
+
+        // Bind the method reference to this Component instance, so that I can access `this`
+        this.restart = this.restart.bind(this);
     }
 
     setPlayers(num) {
@@ -28,6 +31,14 @@ class PreGame extends Component {
     setBegin(state) {
         this.setState({
             begin: state
+        });
+    }
+
+    restart() {
+        this.setState({
+            totalPlayers: null,
+            startingLife: null,
+            begin: false,
         });
     }
 
@@ -75,18 +86,26 @@ class PreGame extends Component {
         }
     }
 
+    renderBeginButton() {
+        if (this.state.totalPlayers !== null && this.state.startingLife !== null) {
+            return <button onClick={() => this.setBegin(true)}>Begin</button>;
+        } else {
+            return '';
+        }
+    }
+
     render() {
         if (this.state.begin === false) {
             return (
-                <div className={styles['pregame-setup']}>
+                <div className={styles['gameboard-setup']}>
                     {this.renderPlayerSelect()}
                     {this.renderLifeSelect()}
-                    <button onClick={() => this.setBegin(true)}>Begin</button>
+                    {this.renderBeginButton()}
                 </div>
             );
         } else {
             return (
-                <Game players={this.state.totalPlayers} life={this.state.startingLife}></Game>
+                <Game players={this.state.totalPlayers} life={this.state.startingLife} restart={this.restart}></Game>
             );
         }
     }
@@ -99,7 +118,8 @@ class Game extends React.Component {
         this.state = {
             players: [],
             turn: 1,
-            playerTurn: 0 // (playerTurn % state.players.length) => tells you whose turn it is
+            playerTurn: 0, // (playerTurn % state.players.length) => tells you whose turn it is
+            menuOpen: false,
         };
 
         for (let i = 0; i < props.players; i++) {
@@ -112,12 +132,40 @@ class Game extends React.Component {
         }
 
         this.current = props.myTurn;
+
+        // Grab the parent method to use here
+        this.restart = props.restart;
+        
+        // Bind the method reference to this Component instance, so that I can access `this`
+        this.toggleMenu = this.toggleMenu.bind(this);
+    }
+
+    reset() {
+        this.restart();
+        this.toggleMenu();
+    }
+
+    toggleMenu() {
+        this.setState({
+            menuOpen: !this.state.menuOpen
+        });
+    }
+
+    renderMenu() {
+        if (this.state.menuOpen) {
+            return (<div className={styles['menu-container']}>
+                <button className={styles['menu-item']} onClick={() => this.reset()}>Restart Game</button>
+            </div>);
+        } else {
+            return '';
+        }
     }
 
     render() {
         return (
             <div className={styles.game}>
-                <GameBoard players={this.state.players}></GameBoard>
+                <GameBoard players={this.state.players} toggleMenu={this.toggleMenu}></GameBoard>
+                {this.renderMenu()}
             </div>
         );
     }
@@ -136,6 +184,8 @@ class GameBoard extends React.Component {
         ];
 
         this.playerTiles = [];
+
+        this.menuHandler = props.toggleMenu;
         
         for (let i = 0; i < props.players.length; i++) {
             this.playerTiles.push(<Player key={i} life={props.players[i].life} index={i} totalPlayers={props.players.length}></Player>);
@@ -146,8 +196,13 @@ class GameBoard extends React.Component {
     
     render() {
         return (
-            <div className={styles['game-board']}>
-                {this.playerTiles}
+            <div className={styles['game-container']}>
+                <div className={styles['menu-board']}>
+                    <button onClick={() => this.menuHandler()}>&equiv;</button>
+                </div>
+                <div className={styles['game-board']}>
+                    {this.playerTiles}
+                </div>
             </div>
         );
     }
