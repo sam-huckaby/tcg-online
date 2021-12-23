@@ -1,0 +1,88 @@
+.gameboard-setup {
+    display: flex;
+    flex-direction: column;
+}
+
+.game {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.game-board {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
+
+.players {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.player {
+    border-bottom: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 64px;
+
+    &.player-0 {
+        background-color: rgb(255, 74, 74);
+    }
+    &.player-1 {
+        background-color: rgb(255, 166, 0);
+    }
+    &.player-2 {
+        background-color: yellow;
+    }
+    &.player-3 {
+        background-color: rgb(82, 161, 82);
+    }
+    &.player-4 {
+        background-color: rgb(123, 123, 199);
+    }
+    &.player-5 {
+        background-color: rgb(151, 113, 151);
+    }
+    
+    &.total-players-6,
+    &.total-players-5 {
+        height: 33%;
+        width: 50%;
+    }
+    &.total-players-4,
+    &.total-players-3 {
+        height: 50%;
+        width: 50%;
+    }
+    &.total-players-2 {
+        width: 100%;
+        height: 50%;
+    }
+
+    .increment-button,
+    .decrement-button {
+        width: 100px;
+        height: 50px;
+        background: transparent;
+        border: none;
+        font-size: 32px;
+
+        &:active {
+            background-color: white;
+        }
+    }
+}
+
+.life-selector {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
