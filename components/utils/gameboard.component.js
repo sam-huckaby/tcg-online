@@ -2,10 +2,30 @@ import React, { Component } from 'react';
 
 import styles from '../../styles/utils/gameboard.module.scss';
 
+const GAME_STATE = 'tcg.online-mtg_game_state';
+const GAME_DATA = 'tcg.online-mtg_game_data';
+
+function debounce(func, wait, immediate) {
+	let timeout;
+	return function() {
+		let context = this;
+        let args = arguments;
+		let later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		let callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 class PreGame extends Component {
     // This constructor may be unnecessary
     constructor(props) {
         super(props);
+
         this.state = {
             totalPlayers: null,
             startingLife: null,
@@ -14,6 +34,12 @@ class PreGame extends Component {
 
         // Bind the method reference to this Component instance, so that I can access `this`
         this.restart = this.restart.bind(this);
+    }
+
+    componentDidMount() {
+        if (typeof window !== "undefined" && window.localStorage.getItem(GAME_STATE)) {
+            this.setState(JSON.parse(window.localStorage.getItem(GAME_STATE)));
+        }
     }
 
     setPlayers(num) {
@@ -32,14 +58,23 @@ class PreGame extends Component {
         this.setState({
             begin: state
         });
+        window.localStorage.setItem(GAME_STATE, JSON.stringify({...this.state, begin: true}));
     }
 
     restart() {
+        // Reset the state
         this.setState({
             totalPlayers: null,
             startingLife: null,
             begin: false,
         });
+        // Reset the persisted state
+        window.localStorage.setItem(GAME_STATE, JSON.stringify({
+            totalPlayers: null,
+            startingLife: null,
+            begin: false,
+        }));
+        window.localStorage.removeItem(GAME_DATA);
     }
 
     renderPlayerSelect() {
@@ -140,6 +175,21 @@ class Game extends React.Component {
         this.toggleMenu = this.toggleMenu.bind(this);
     }
 
+    componentDidMount() {
+        if (typeof window !== "undefined" && window.localStorage.getItem(GAME_DATA)) {
+            this.setState(JSON.parse(window.localStorage.getItem(GAME_DATA)));
+        }
+    }
+
+    componentDidUpdate() {
+        // debounce(function() {
+            
+        // }, 1);
+        if (typeof window !== "undefined" && this.state) {
+            window.localStorage.setItem(GAME_DATA, JSON.stringify(this.state))
+        }
+    }
+
     reset() {
         this.restart();
         this.toggleMenu();
@@ -161,10 +211,22 @@ class Game extends React.Component {
         }
     }
 
+    updateLife(playerIndex, lifeChange) {
+        let players = this.state.players;
+        players[playerIndex].life += lifeChange;
+        this.setState({
+            players: players
+        });
+    }
+
+    renderGameBoard() {
+        return <GameBoard players={this.state.players} toggleMenu={this.toggleMenu} updateLife={this.updateLife.bind(this)}></GameBoard>;
+    }
+
     render() {
         return (
             <div className={styles.game}>
-                <GameBoard players={this.state.players} toggleMenu={this.toggleMenu}></GameBoard>
+                {this.renderGameBoard()}
                 {this.renderMenu()}
             </div>
         );
@@ -174,25 +236,20 @@ class Game extends React.Component {
 class GameBoard extends React.Component {
     constructor (props) {
         super(props);
-        this.colors = [
-            'red',
-            'orange',
-            'yellow',
-            'green',
-            'blue',
-            'purple',
-        ];
-
         this.playerTiles = [];
 
         this.menuHandler = props.toggleMenu;
-        
-        for (let i = 0; i < props.players.length; i++) {
-            this.playerTiles.push(<Player key={i} life={props.players[i].life} index={i} totalPlayers={props.players.length}></Player>);
-        }
+
+        this.updateLife = props.updateLife;
     }
-    // Select colors? (Maybe just use the basic 6, and cap the players)
-    // Loop through and create a Player object for the number of players specified in props.players
+
+    renderPlayers() {
+        this.playerTiles = [];
+        for (let i = 0; i < this.props.players.length; i++) {
+            this.playerTiles.push(<Player key={i} life={this.props.players[i].life} index={i} totalPlayers={this.props.players.length} updateLife={this.updateLife}></Player>);
+        }
+        return this.playerTiles;
+    }
     
     render() {
         return (
@@ -201,7 +258,7 @@ class GameBoard extends React.Component {
                     <button onClick={() => this.menuHandler()}>&equiv;</button>
                 </div>
                 <div className={styles['game-board']}>
-                    {this.playerTiles}
+                    {this.renderPlayers()}
                 </div>
             </div>
         );
@@ -209,7 +266,7 @@ class GameBoard extends React.Component {
 }
 
 // Player Class
-// Takes props.life && props.color
+// Takes props.life
 class Player extends React.Component {
     constructor (props) {
         super(props);
@@ -217,35 +274,40 @@ class Player extends React.Component {
         // Track life along with an assortment of counters that a player can accumulate
         // These are values that the Player component will control
         this.state = {
+            index: props.index,
             life: props.life,
-            color: props.color,
             poison: 0,
             commander: 0,
             energy: 0
         };
 
         this.current = props.myTurn;
+        this.updateLife = function(life) {
+            return props.updateLife(props.index, life);
+        }
 
         this.classes = `${styles.player} ${styles['player-'+props.index]} ${styles['total-players-'+props.totalPlayers]}`;
     }
 
     increment() {
-        this.setState({
-            life: (this.state.life + 1)
-        });
+        // this.setState({
+        //     life: (this.state.life + 1)
+        // });
+        this.updateLife(1);
     }
 
     decrement() {
-        this.setState({
-            life: (this.state.life - 1)
-        });
+        // this.setState({
+        //     life: (this.state.life - 1)
+        // });
+        this.updateLife(-1);
     }
     
     render() {
         return (
             <div className={this.classes}>
                 <button className={styles['increment-button']} onClick={() => this.increment()}>+</button>
-                {this.state.life}
+                {this.props.life}
                 <button className={styles['decrement-button']} onClick={() => this.decrement()}>-</button>
             </div>
         );
