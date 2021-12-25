@@ -6,7 +6,7 @@ const GAME_STATE = 'tcg.online-mtg_game_state';
 const GAME_DATA = 'tcg.online-mtg_game_data';
 
 function debounce(func, wait, immediate) {
-	let timeout;
+	var timeout;
 	return function() {
 		let context = this;
         let args = arguments;
@@ -21,7 +21,7 @@ function debounce(func, wait, immediate) {
 	};
 };
 
-class PreGame extends Component {
+class MtgTracker extends Component {
     // This constructor may be unnecessary
     constructor(props) {
         super(props);
@@ -176,7 +176,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
-        if (typeof window !== "undefined" && window.localStorage.getItem(GAME_DATA)) {
+        if (typeof window !== "undefined" && window.localStorage.getItem(GAME_DATA) && JSON.parse(window.localStorage.getItem(GAME_STATE)).begin === true) {
             this.setState(JSON.parse(window.localStorage.getItem(GAME_DATA)));
         }
     }
@@ -317,4 +317,4 @@ class Player extends React.Component {
     }
 }
 
-export default PreGame;
+export default MtgTracker;

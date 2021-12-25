@@ -1,8 +1,8 @@
 // import { connect } from 'react-redux';
 // import { decrementLifeCounter, incrementLifeCounter } from '../../redux/actions/utils/mtg-tracker.actions';
 
-import PreGame from '../../components/utils/gameboard.component';
+import MtgTracker from '../../components/utils/gameboard.component';
 
 export default function MtgLifeCounter() {
-    return (<PreGame></PreGame>);
+    return (<MtgTracker></MtgTracker>);
 }
