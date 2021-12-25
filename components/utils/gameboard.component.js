@@ -81,7 +81,7 @@ class PreGame extends Component {
         if (this.state.totalPlayers === null) {
             return (
                 <div>
-                    <div>Number of Players:</div>
+                    <div className={styles['pregame-label']}>Number of Players:</div>
                     <div className={styles.players}>
                         {/* Setup buttons or radio group to select number of players (2-6) */}
                         {/* Use classes to denote which is selected */}
@@ -95,7 +95,7 @@ class PreGame extends Component {
             );
         } else {
             return (
-                <div>Number of Players: {this.state.totalPlayers}</div>
+                <div className={styles['pregame-label']}>Number of Players: {this.state.totalPlayers}</div>
             );
         }
     }
@@ -104,7 +104,7 @@ class PreGame extends Component {
         if(this.state.startingLife === null) {
             return (
                 <div>
-                    <div>Starting Life Total:</div>
+                    <div className={styles['pregame-label']}>Starting Life Total:</div>
                     <div className={styles['life-selector']}>
                         <button onClick={() => this.setLife(20)}>20</button>
                         <button onClick={() => this.setLife(40)}>40</button>
@@ -116,7 +116,7 @@ class PreGame extends Component {
             );
         } else {
             return (
-                <div>Starting Life Total: {this.state.startingLife}</div>
+                <div className={styles['pregame-label']}>Starting Life Total: {this.state.startingLife}</div>
             );
         }
     }
@@ -182,21 +182,24 @@ class Game extends React.Component {
     }
 
     componentDidUpdate() {
-        // debounce(function() {
-            
-        // }, 1);
-        if (typeof window !== "undefined" && this.state) {
-            window.localStorage.setItem(GAME_DATA, JSON.stringify(this.state))
-        }
+        let updater = debounce(() => {
+            // For some reason, this "debounce" function doesn't cancel requests, and just waits 1 second and then fires them all off
+            if (typeof window !== "undefined" && this.state) {
+                window.localStorage.setItem(GAME_DATA, JSON.stringify(this.state))
+            }
+        }, 1000);
+
+        updater();
     }
 
-    reset() {
+    async reset() {
+        // Put that thing away, and be sure you're done before you restart things
+        await this.toggleMenu();
         this.restart();
-        this.toggleMenu();
     }
 
     toggleMenu() {
-        this.setState({
+        return this.setState({
             menuOpen: !this.state.menuOpen
         });
     }

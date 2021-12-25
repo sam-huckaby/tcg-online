@@ -92,6 +92,7 @@
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
   background-color: whitesmoke;
+  color: black;
 }
 
 .card:hover,
@@ -133,6 +134,7 @@
   border-radius: 5px;
   display: inline-block;
   background-color: white;
+  color: black;
   position: relative;
   height: 80px;
   width: 60px;
