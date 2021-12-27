@@ -71,6 +71,11 @@ class MtgTracker extends Component {
     }
 
     async startGame() {
+        // Can't start the game without these two pieces of information
+        if (this.state.startingLife === null || this.state.totalPlayers === null) {
+            return;
+        }
+
         // Build the new players for the game
         let newPlayers = [];
         for (let i = 0; i < this.state.totalPlayers; i++) {
@@ -113,54 +118,62 @@ class MtgTracker extends Component {
     }
 
     renderPlayerSelect() {
-        if (this.state.totalPlayers === null) {
-            return (
-                <div>
-                    <div className={styles['pregame-label']}>Number of Players:</div>
-                    <div className={styles.players}>
-                        {/* Setup buttons or radio group to select number of players (2-6) */}
-                        {/* Use classes to denote which is selected */}
-                        <button onClick={() => this.setPlayers(2)}>2</button>
-                        <button onClick={() => this.setPlayers(3)}>3</button>
-                        <button onClick={() => this.setPlayers(4)}>4</button>
-                        <button onClick={() => this.setPlayers(5)}>5</button>
-                        <button onClick={() => this.setPlayers(6)}>6</button>
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div className={styles['pregame-label']}>Number of Players: {this.state.totalPlayers}</div>
-            );
+        let playerButtons = [];
+
+        for (let i = 2; i <= 6; i++) {
+            let dynamicClass = `${styles['selector-button']}`;
+            if (this.state.totalPlayers === i) {
+                dynamicClass = dynamicClass + ' ' + `${styles.selected}`
+            }
+            playerButtons.push(<div key={i+'_player_button'} className={dynamicClass} onClick={() => this.setPlayers(i)}>{i}</div>);
         }
+
+        return (
+            <div>
+                <div className={styles['pregame-label']}>Number of Players:</div>
+                <div className={styles['selector-container']}>
+                    {playerButtons}
+                </div>
+            </div>
+        );
     }
 
     renderLifeSelect() {
-        if(this.state.startingLife === null) {
-            return (
-                <div>
-                    <div className={styles['pregame-label']}>Starting Life Total:</div>
-                    <div className={styles['life-selector']}>
-                        <button onClick={() => this.setLife(20)}>20</button>
-                        <button onClick={() => this.setLife(40)}>40</button>
-                        <button onClick={() => this.setLife(60)}>60</button>
-                        <button onClick={() => this.setLife(80)}>80</button>
-                        <button onClick={() => this.setLife(100)}>100</button>
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div className={styles['pregame-label']}>Starting Life Total: {this.state.startingLife}</div>
-            );
+        let lifeButtons = [];
+        let lifeOptions = [
+            20,
+            40,
+            60,
+            80,
+            100
+        ];
+
+        for (let i = 0; i < lifeOptions.length; i++) {
+            let dynamicClass = `${styles['selector-button']}`;
+            if (this.state.startingLife === lifeOptions[i]) {
+                dynamicClass = dynamicClass + ' ' + `${styles.selected}`
+            }
+            lifeButtons.push(<div key={i+'_life_button'} className={dynamicClass} onClick={() => this.setLife(lifeOptions[i])}>{lifeOptions[i]}</div>);
         }
+
+        return (
+            <div>
+                <div className={styles['pregame-label']}>Starting Life Total:</div>
+                <div className={styles['selector-container']}>
+                    {lifeButtons}
+                </div>
+            </div>
+        );
     }
 
     renderBeginButton() {
+        let classes = `${styles['begin-button']}`;
+
         if (this.state.totalPlayers !== null && this.state.startingLife !== null) {
-            return <button onClick={() => this.startGame()}>Begin</button>;
+            return <button className={classes} onClick={() => this.startGame()}>Begin</button>;
         } else {
-            return '';
+            classes = classes + ` ${styles.disabled}`;
+            return <button className={classes}>Begin</button>;
         }
     }
 

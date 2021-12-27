@@ -16,17 +16,73 @@
         background-color: rgb(44, 44, 44);
     }
     
-
-    .players {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+    .pregame-label {
+        margin: 10px;
+        font-size: 24px;
+        font-weight: 700;
     }
 
-    .life-selector {
+    .selector-container {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+
+        .selector-button {
+            background-color: whitesmoke;
+            color: darkslategray;
+            @media (prefers-color-scheme: dark) {
+                background-color: darkslategray;
+                color: whitesmoke;
+            }
+
+            margin: 10px;
+            border: 1px solid lightslategray;
+            border-radius: 5px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+
+            &.selected {
+                background-color: darkslategray;
+                color: whitesmoke;
+
+                @media (prefers-color-scheme: dark) {
+                    background-color: whitesmoke;
+                    color: darkslategray;
+                }
+            }
+        }
+    }
+
+    .begin-button {
+        background-color: whitesmoke;
+        color: darkslategray;
+        @media (prefers-color-scheme: dark) {
+            background-color: darkslategray;
+            color: whitesmoke;
+        }
+
+        margin: 10px;
+        border: 1px solid lightslategray;
+        border-radius: 5px;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        padding: 10px;
+
+        &.disabled {
+            background-color: gray;
+            color: darkgray;
+        }
     }
 }
 
