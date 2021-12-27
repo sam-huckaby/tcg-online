@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import styles from '../../styles/utils/gameboard.module.scss';
 
 const GAME_STATE = 'tcg.online-mtg_game_state';
-const GAME_DATA = 'tcg.online-mtg_game_data';
 
 function debounce(func, wait, immediate) {
 	var timeout;
@@ -26,20 +25,37 @@ class MtgTracker extends Component {
     constructor(props) {
         super(props);
 
+        // Manage all of the details of the MTG game tracker in one place
         this.state = {
             totalPlayers: null,
             startingLife: null,
             begin: false,
+            game: {
+                players: [],
+                turn: 1,
+                playerTurn: 0, // (playerTurn % state.players.length) => tells you whose turn it is
+            }
         };
-
-        // Bind the method reference to this Component instance, so that I can access `this`
-        this.restart = this.restart.bind(this);
     }
 
     componentDidMount() {
+        // If there is localStorage, grab any stored game state
         if (typeof window !== "undefined" && window.localStorage.getItem(GAME_STATE)) {
             this.setState(JSON.parse(window.localStorage.getItem(GAME_STATE)));
         }
+    }
+
+    // TODO: Write a better debounce function (probably)
+    componentDidUpdate() {
+        // When the component's state updates, update localStorage if available (but not more than once per second)
+        let updater = debounce(() => {
+            // For some reason, this "debounce" function doesn't cancel requests, and just waits 1 second and then fires them all off
+            if (typeof window !== "undefined" && this.state) {
+                window.localStorage.setItem(GAME_STATE, JSON.stringify(this.state))
+            }
+        }, 1000);
+
+        updater();
     }
 
     setPlayers(num) {
@@ -54,11 +70,26 @@ class MtgTracker extends Component {
         });
     }
 
-    setBegin(state) {
-        this.setState({
-            begin: state
+    async startGame() {
+        // Build the new players for the game
+        let newPlayers = [];
+        for (let i = 0; i < this.state.totalPlayers; i++) {
+            newPlayers.push({
+                life: this.state.startingLife,
+                poison: 0,
+                commander: 0,
+                energy: 0
+            });
+        }
+        await this.setState({
+            game: {
+                players: newPlayers,
+                turn: 1,
+                playerTurn: 0,
+            },
+            begin: true
         });
-        window.localStorage.setItem(GAME_STATE, JSON.stringify({...this.state, begin: true}));
+        window.localStorage.setItem(GAME_STATE, JSON.stringify(this.state));
     }
 
     restart() {
@@ -73,8 +104,12 @@ class MtgTracker extends Component {
             totalPlayers: null,
             startingLife: null,
             begin: false,
+            game: {
+                players: [],
+                turn: 1,
+                playerTurn: 0,
+            }
         }));
-        window.localStorage.removeItem(GAME_DATA);
     }
 
     renderPlayerSelect() {
@@ -123,13 +158,28 @@ class MtgTracker extends Component {
 
     renderBeginButton() {
         if (this.state.totalPlayers !== null && this.state.startingLife !== null) {
-            return <button onClick={() => this.setBegin(true)}>Begin</button>;
+            return <button onClick={() => this.startGame()}>Begin</button>;
         } else {
             return '';
         }
     }
 
+    async updatePlayer(playerIndex, values) {
+        // Create a clone of the player array, so we don't directly mutate the state
+        let players = this.state.game.players.slice();
+        // Assign the original values to the player and then overwrite with any new valyes
+        players[playerIndex] = {...players[playerIndex], ...values};
+        // Update the state and call it a day
+        await this.setState({
+            game: {
+                ...this.state.game,
+                ...{players: players}
+            }
+        });
+    }
+
     render() {
+        // If the game is not yet started, show the setup screen
         if (this.state.begin === false) {
             return (
                 <div className={styles['gameboard-setup']}>
@@ -139,8 +189,9 @@ class MtgTracker extends Component {
                 </div>
             );
         } else {
+            // if the game is already started, display the game with existing details
             return (
-                <Game players={this.state.totalPlayers} life={this.state.startingLife} restart={this.restart}></Game>
+                <Game players={this.state.game.players} restart={this.restart.bind(this)} update={this.updatePlayer.bind(this)}></Game>
             );
         }
     }
@@ -151,45 +202,11 @@ class Game extends React.Component {
         super(props);
 
         this.state = {
-            players: [],
-            turn: 1,
-            playerTurn: 0, // (playerTurn % state.players.length) => tells you whose turn it is
             menuOpen: false,
         };
 
-        for (let i = 0; i < props.players; i++) {
-            this.state.players.push({
-                life: props.life,
-                poison: 0,
-                commander: 0,
-                energy: 0
-            });
-        }
-
-        this.current = props.myTurn;
-
         // Grab the parent method to use here
         this.restart = props.restart;
-        
-        // Bind the method reference to this Component instance, so that I can access `this`
-        this.toggleMenu = this.toggleMenu.bind(this);
-    }
-
-    componentDidMount() {
-        if (typeof window !== "undefined" && window.localStorage.getItem(GAME_DATA) && JSON.parse(window.localStorage.getItem(GAME_STATE)).begin === true) {
-            this.setState(JSON.parse(window.localStorage.getItem(GAME_DATA)));
-        }
-    }
-
-    componentDidUpdate() {
-        let updater = debounce(() => {
-            // For some reason, this "debounce" function doesn't cancel requests, and just waits 1 second and then fires them all off
-            if (typeof window !== "undefined" && this.state) {
-                window.localStorage.setItem(GAME_DATA, JSON.stringify(this.state))
-            }
-        }, 1000);
-
-        updater();
     }
 
     async reset() {
@@ -215,15 +232,16 @@ class Game extends React.Component {
     }
 
     updateLife(playerIndex, lifeChange) {
-        let players = this.state.players;
+        // create a clone of the game's players
+        let players = this.props.players.slice();
+        // Update the specified player's life
         players[playerIndex].life += lifeChange;
-        this.setState({
-            players: players
-        });
+        // Tell the Tracker to update that player's details
+        this.props.update(playerIndex, players[playerIndex])
     }
 
     renderGameBoard() {
-        return <GameBoard players={this.state.players} toggleMenu={this.toggleMenu} updateLife={this.updateLife.bind(this)}></GameBoard>;
+        return <GameBoard players={this.props.players} toggleMenu={this.toggleMenu.bind(this)} updateLife={this.updateLife.bind(this)}></GameBoard>;
     }
 
     render() {
@@ -274,36 +292,19 @@ class Player extends React.Component {
     constructor (props) {
         super(props);
 
-        // Track life along with an assortment of counters that a player can accumulate
-        // These are values that the Player component will control
-        this.state = {
-            index: props.index,
-            life: props.life,
-            poison: 0,
-            commander: 0,
-            energy: 0
-        };
+        // This will be passed in a future feature (need to add "turn tracker" to the menu)
+        //this.current = props.myTurn;
 
-        this.current = props.myTurn;
-        this.updateLife = function(life) {
-            return props.updateLife(props.index, life);
-        }
-
+        // Dynamically assign the player classes, so that the color can be set more easily
         this.classes = `${styles.player} ${styles['player-'+props.index]} ${styles['total-players-'+props.totalPlayers]}`;
     }
 
     increment() {
-        // this.setState({
-        //     life: (this.state.life + 1)
-        // });
-        this.updateLife(1);
+        this.props.updateLife(this.props.index, 1);
     }
 
     decrement() {
-        // this.setState({
-        //     life: (this.state.life - 1)
-        // });
-        this.updateLife(-1);
+        this.props.updateLife(this.props.index, -1);
     }
     
     render() {
