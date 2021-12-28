@@ -31,22 +31,26 @@
   flex-grow: 1;
 }
 
-.title a {
-  color: $linkColor;
-  text-decoration: none;
-}
-
-.title a:hover,
-.title a:focus,
-.title a:active {
-  text-decoration: underline;
-}
-
 .title {
   margin-left: 15px;
   line-height: 1.15;
   font-size: 4rem;
   transform: rotate(10deg);
+  
+  a {
+    color: $linkColor;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus,
+  a:active {
+    text-decoration: underline;
+  }
+
+  .online-subtext {
+    margin-top: 5px;
+  }
 }
 
 .title,
@@ -93,33 +97,58 @@
   max-width: 300px;
   background-color: whitesmoke;
   color: black;
-}
 
-.card:hover,
-.card:focus,
-.card:active {
-  color: $primary;
-  border-color: $primary;
-}
-
-@media (prefers-color-scheme: dark) {
-  .card:hover,
-  .card:focus,
-  .card:active {
-    color: $primaryDark;
-    border-color: $primaryDark;
+  &:hover,
+  &:focus,
+  &:active {
+    color: $primary;
+    border-color: $primary;
   }
-}
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
+  @media (prefers-color-scheme: dark) {
+    &:hover,
+    &:focus,
+    &:active {
+      color: $primaryDark;
+      border-color: $primaryDark;
+    }
+  }
 
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+  p {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+
+  h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+  }
+
+  .card-description {
+    position: relative;
+
+    .coming-soon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      transform: rotate(15deg);
+      color: red;
+      font-size: 24px;
+      font-weight: 700;
+
+      span {
+        border: 1px solid red;
+        background-color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
 }
 
 .logo {
