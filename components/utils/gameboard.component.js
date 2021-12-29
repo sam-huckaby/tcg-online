@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import NoSleep from 'nosleep.js';
 
 import styles from '../../styles/utils/gameboard.module.scss';
+
+let noSleep;
+if (typeof window !== "undefined") {
+    noSleep = new NoSleep();
+} else {
+    noSleep = {};
+}
 
 const GAME_STATE = 'tcg.online-mtg_game_state';
 
@@ -228,17 +236,39 @@ class Game extends React.Component {
         this.restart();
     }
 
+    setSleep(turnOn) {
+        if (turnOn) {
+            noSleep.enable();
+        } else {
+            noSleep.disable();
+        }
+        this.setState({
+            sleeping: turnOn
+        });
+    }
+
     toggleMenu() {
         return this.setState({
             menuOpen: !this.state.menuOpen
         });
     }
 
+    renderSleepButton() {
+        if (this.state.sleeping) {
+            return <button className={styles['menu-item']} onClick={() => this.setSleep(false)}>Disable Stay Awake</button>;
+        } else {
+            return <button className={styles['menu-item']} onClick={() => this.setSleep(true)}>Enable Stay Awake</button>;
+        }
+    }
+
     renderMenu() {
         if (this.state.menuOpen) {
-            return (<div className={styles['menu-container']}>
-                <button className={styles['menu-item']} onClick={() => this.reset()}>Restart Game</button>
-            </div>);
+            return (
+                <div className={styles['menu-container']}>
+                    <button className={styles['menu-item']} onClick={() => this.reset()}>Restart Game</button>
+                    {this.renderSleepButton()}
+                </div>
+            );
         } else {
             return '';
         }
