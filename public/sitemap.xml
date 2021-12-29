@@ -1,0 +1,10 @@
+<!-- THIS NEEDS TO BE CONVERTED TO A DYNAMIC XML -->
+<!-- SEE: https://nextjs.org/learn/seo/crawling-and-indexing/xml-sitemaps -->
+<xml version="1.0" encoding="UTF-8">
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     <url>
+       <loc>http://www.tcg.online/utils/mtg-counter</loc>
+       <lastmod>2021-12-29</lastmod>
+     </url>
+   </urlset>
+   </xml>

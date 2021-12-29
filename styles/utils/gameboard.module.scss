@@ -37,6 +37,7 @@
                 color: whitesmoke;
             }
 
+            cursor: pointer;
             margin: 10px;
             border: 1px solid lightslategray;
             border-radius: 5px;
@@ -71,7 +72,7 @@
         margin: 10px;
         border: 1px solid lightslategray;
         border-radius: 5px;
-        
+        cursor: pointer;        
         display: flex;
         flex-direction: row;
         justify-content: center;

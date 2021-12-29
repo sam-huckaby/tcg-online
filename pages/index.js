@@ -7,8 +7,13 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>TCG Online</title>
-        <meta name="description" content="A place for card collectors to come together." />
+        <title>TCG Online | Online Resources For Trading Card Games</title>
+        <meta name="description" content="Online resources for trading card games like Magic: The Gather, Pokémon, Yu-Gi-Oh!, and Flesh & Blood" />
+        <meta property="og:title" content="TCG Online | Resources for TCG Players" />
+        <meta
+          property="og:description"
+          content="Online resources for trading card games like Magic: The Gather, Pokémon, Yu-Gi-Oh!, and Flesh & Blood"
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
