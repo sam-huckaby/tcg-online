@@ -15,7 +15,7 @@ const Post = (props) => {
         props.post = {};
     }
 
-    const { title = 'Missing title', name = 'Unknown', categories, body = [] } = props.post
+    const { title = 'Missing title', summary = 'No summary provided', name = 'Unknown', categories, body = [] } = props.post
     
     return (
         <div>
@@ -23,11 +23,11 @@ const Post = (props) => {
             <article className={styles.article}>
                 <Head>
                     <title>{title} | TCG Online</title>
-                    <meta name="description" content="need to add summary field to posts" />
+                    <meta name="description" content="{summary}" />
                     <meta property="og:title" content="{title} | TCG Online" />
                     <meta
                         property="og:description"
-                        content="need to add summary field to posts"
+                        content="{summary}"
                     />
                     <link rel="icon" href="/favicon.ico" />
                 </Head>
@@ -66,6 +66,7 @@ export async function getStaticProps(context) {
     const post = await client.fetch(
         groq`*[_type == "post" && slug.current == $slug][0]{
                 title,
+                summary,
                 "name": author->name,
                 "categories": categories[]->title,
                 body

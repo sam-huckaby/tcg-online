@@ -1,5 +1,6 @@
 import groq from 'groq';
 import Link from 'next/link';
+import Head from 'next/link';
 
 import client from '../../../client';
 
@@ -11,6 +12,16 @@ import styles from '../../../styles/learn/mtg/home.module.scss';
 const MagicLearnHome = ({ posts }) => {
     return (
         <div className={styles['post-container']}>
+            <Head>
+                <title>Learn about Magic: The Gathering | TCG Online</title>
+                <meta name="description" content="Get in-depth information about Magic: The Gathering TCG" />
+                <meta property="og:title" content="Learn about Magic: The Gathering | TCG Online" />
+                <meta
+                    property="og:description"
+                    content="Get in-depth information about Magic: The Gathering TCG"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             <MiniHeader></MiniHeader>
             <div className={styles.page}>
                 <h1>Learn About Magic: The Gathering</h1>
