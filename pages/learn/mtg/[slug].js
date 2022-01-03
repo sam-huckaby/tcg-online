@@ -74,7 +74,6 @@ export async function getStaticProps(context) {
         , { slug }
     );
     
-    console.log(post);
     return {
         props: {
             post

@@ -1,6 +1,6 @@
 import groq from 'groq';
 import Link from 'next/link';
-import Head from 'next/link';
+import Head from 'next/head';
 
 import client from '../../../client';
 
@@ -27,18 +27,18 @@ const MagicLearnHome = ({ posts }) => {
                 <h1>Learn About Magic: The Gathering</h1>
                 <div className={styles.grid}>
                 {posts.length > 0 && posts.map(
-                ({ _id, title = '', slug = '', publishedAt = '', summary = '' }) =>
-                    slug && (
-                        <Link key={'LINK_' + _id} href="/learn/mtg/[slug]" as={`/learn/mtg/${slug.current}`}>
-                            <a key={'ANCHOR_' + _id} className={styles.card}>
-                                <h2>{title}</h2>
-                                <span className={styles['post-date']}>{new Date(publishedAt).toDateString()}</span>
-                                <div className={styles['card-description']}>
-                                    <p>{summary}.</p>
-                                </div>
-                            </a>
-                        </Link>
-                    )
+                    ({ _id, title = 'Untitled', slug = '', publishedAt = '', summary = '' }) =>
+                        slug && (
+                            <Link href={`/learn/mtg/${slug.current}`} key={'LINK_' + _id}>
+                                <a key={'ANCHOR_' + _id} className={styles.card}>
+                                    <h2>{title}</h2>
+                                    <span className={styles['post-date']}>{new Date(publishedAt).toDateString()}</span>
+                                    <div className={styles['card-description']}>
+                                        <p>{summary}.</p>
+                                    </div>
+                                </a>
+                            </Link>
+                        )
                 )}
                 </div>
             </div>
