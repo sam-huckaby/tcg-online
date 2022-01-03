@@ -29,7 +29,6 @@ function debounce(func, wait, immediate) {
 };
 
 class MtgTracker extends Component {
-    // This constructor may be unnecessary
     constructor(props) {
         super(props);
 

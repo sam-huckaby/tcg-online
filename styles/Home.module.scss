@@ -15,22 +15,6 @@
   align-items: center;
 }
 
-.footer {
-  display: flex;
-  flex: 1;
-  padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-}
-
 .title {
   margin-left: 15px;
   line-height: 1.15;
@@ -151,11 +135,6 @@
   }
 }
 
-.logo {
-  height: 1em;
-  margin-left: 0.5rem;
-}
-
 #t_card,
 #c_card,
 #g_card {
@@ -194,6 +173,8 @@
 
 #t_card:hover {
   background-color: rgb(230, 240, 255);
+  // TODO: Allow users to "tap" the cards on hover (maybe)
+  // transform: rotate(90deg) translateX(5px) translateY(-18px);
 }
 #c_card:hover {
   background-color: rgb(230, 255, 240);

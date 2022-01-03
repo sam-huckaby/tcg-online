@@ -1,0 +1,97 @@
+@import '../colors';
+
+.header-container {
+    padding: 4rem 0;
+    flex: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: -6rem;
+
+    .tiltSection {
+        background-color: $primary;
+        transform: rotate(-10deg);
+        margin-top: -60px;
+        margin-bottom: 60px;
+        width: 150%;
+        padding: 40px 0 40px 0;
+    
+        @media (prefers-color-scheme: dark) {
+            background-color: $primaryDark;
+        }
+    
+        .title {
+            margin-left: 15px;
+            line-height: 1.15;
+            font-size: 2rem;
+            transform: rotate(10deg);
+            text-align: center;
+            cursor: pointer;
+            
+            a {
+                color: $linkColor;
+                text-decoration: none;
+            }
+          
+            a:hover,
+            a:focus,
+            a:active {
+                text-decoration: underline;
+            }
+          
+            .online-subtext {
+                margin-top: 5px;
+            }
+        }
+    
+        #t_card,
+        #c_card,
+        #g_card {
+            border: 3px solid black;
+            border-radius: 5px;
+            display: inline-block;
+            background-color: white;
+            color: black;
+            position: relative;
+            height: 40px;
+            width: 30px;
+            line-height: 30px;
+            font-weight: 700;
+        }
+    
+        #t_card {
+            transform: rotate(-18deg) translateX(2px) translateY(7px);
+            z-index: 15;
+            line-height: 32px;
+        }
+    
+        #c_card {
+            z-index: 10;
+            transform: rotate(0) translateX(0) translateY(0);
+        }
+    
+        #g_card {
+            transform: rotate(18deg) translateX(-2px) translateY(5px);
+            z-index: 5;
+        }
+    
+        #t_card:hover,
+        #c_card:hover,
+        #g_card:hover {
+            z-index: 20;
+            cursor: pointer;
+        }
+    
+        #t_card:hover {
+            background-color: rgb(230, 240, 255);
+        }
+        #c_card:hover {
+            background-color: rgb(230, 255, 240);
+        }
+        #g_card:hover {
+            background-color: rgb(255, 230, 240);
+        }
+    }
+}
