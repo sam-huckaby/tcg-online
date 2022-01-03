@@ -1,0 +1,34 @@
+.article {
+    padding: 10px;
+    position: relative;
+    z-index: 10;
+
+    h1 {
+        text-align: center;
+    }
+
+    .author-name {
+        font-weight: 700;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .category-list {
+        margin: 0;
+        padding: 0;
+    
+        .category-name {
+            list-style: none;
+            display: inline-block;
+            background-color: lightgray;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 2px;
+
+            @media (prefers-color-scheme: dark) {
+                background-color: rgb(77, 77, 77);
+                color: white;
+            }
+        }
+    }
+}
