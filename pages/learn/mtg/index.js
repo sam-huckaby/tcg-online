@@ -10,7 +10,7 @@ import styles from '../../../styles/learn/mtg/home.module.scss';
 
 const MagicLearnHome = ({ posts }) => {
     return (
-        <div>
+        <div className={styles['post-container']}>
             <MiniHeader></MiniHeader>
             <div className={styles.page}>
                 <h1>Learn About Magic: The Gathering</h1>

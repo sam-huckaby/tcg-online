@@ -1,8 +1,15 @@
 @import '../../colors';
 
+.post-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .page {
     position: relative;
     z-index: 10;
+    flex: 1 1 auto;
 
     h1 {
         text-align: center;

@@ -2,10 +2,13 @@
 
 .learn-container {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     .page {
         position: relative;
         z-index: 2;
+        flex: 1 1 auto;
 
         h1 {
             text-align: center
