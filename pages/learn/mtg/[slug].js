@@ -10,6 +10,11 @@ import ArticleFooter from '../../../components/common/miniFooter.component';
 import styles from '../../../styles/learn/mtg/post.module.scss';
 
 const Post = (props) => {
+    // If this is the Node side loading there won't be any post data loaded
+    if (!props.post) {
+        props.post = {};
+    }
+
     const { title = 'Missing title', name = 'Unknown', categories, body = [] } = props.post
     
     return (
@@ -68,6 +73,7 @@ export async function getStaticProps(context) {
         , { slug }
     );
     
+    console.log(post);
     return {
         props: {
             post
