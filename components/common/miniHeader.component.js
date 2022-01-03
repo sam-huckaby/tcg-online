@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import styles from '../../styles/common/miniHeader.module.scss';
 
-
 class MiniHeader extends Component {
     // This constructor may be unnecessary
     constructor(props) {
