@@ -5,14 +5,18 @@
     font-size: 18px;
     padding: 20px;
     border-top: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     @media (prefers-color-scheme: dark) {
         border-top: 1px solid whitesmoke;
     }
 
-    .copyright {
+    .copyright,
+    .vercel {
         margin-bottom: 5px;
-        display: inline-block;
     }
 
     .logo {
@@ -25,5 +29,18 @@
         justify-content: center;
         align-items: center;
         flex-grow: 1;
+    }
+
+    .samhuckaby-container {
+        display: flex;
+        flex-direction: row;
+
+        .built-by {
+            padding-right: 4px;
+        }
+
+        .sam-huckaby-logo {
+            color: rgb(234, 88, 12);
+        }
     }
 }
