@@ -15,6 +15,5 @@ export default function MiniHeader() {
                 </Link>
             </div>
         </div>
-        
     );
 }
