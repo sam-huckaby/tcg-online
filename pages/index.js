@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import MiniFooter from '../components/common/miniFooter.component';
+import MiniFooter from '../components/common/MiniFooter';
 
 import styles from '../styles/Home.module.scss';
 

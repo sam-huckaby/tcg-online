@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-import MiniHeader from '../../components/common/miniHeader.component';
-import MiniFooter from '../../components/common/miniFooter.component';
+import MiniHeader from '../../components/common/MiniHeader';
+import MiniFooter from '../../components/common/MiniFooter';
 
 import styles from '../../styles/learn/learn.module.scss';
 

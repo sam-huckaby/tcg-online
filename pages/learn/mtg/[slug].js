@@ -4,8 +4,8 @@ import Head from 'next/head';
 
 import client from '../../../client';
 
-import MiniHeader from '../../../components/common/miniHeader.component';
-import ArticleFooter from '../../../components/common/miniFooter.component';
+import MiniHeader from '../../../components/common/MiniHeader';
+import ArticleFooter from '../../../components/common/MiniFooter';
 
 import styles from '../../../styles/learn/mtg/post.module.scss';
 
