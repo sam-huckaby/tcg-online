@@ -28,7 +28,7 @@ function debounce(func, wait, immediate) {
 	};
 };
 
-function MtgTracker(props) {
+function MtgTracker() {
     // Manage all of the details of the MTG game tracker in one place
     const [totalPlayers, setTotalPlayers] = useState(null);
     const [startingLife, setStartingLife] = useState(null);
@@ -299,9 +299,17 @@ function Player(props) {
     
     return (
         <div className={classes}>
-            <button className={styles['increment-button']} onClick={increment}>+</button>
-            <span>{props.life}</span>
-            <button className={styles['decrement-button']} onClick={decrement}>-</button>
+            {
+                ((props.index+1) % 2 === 0)?
+                    <button className={styles['increment-button']} onClick={increment}>+</button> :
+                    <button className={styles['decrement-button']} onClick={decrement}>-</button>
+            }
+            <span className={(((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` text-black`}>{props.life}</span>
+            {
+                ((props.index+1) % 2 === 1)?
+                    <button className={styles['increment-button']} onClick={increment}>+</button> :
+                    <button className={styles['decrement-button']} onClick={decrement}>-</button>
+            }
         </div>
     );
 }
