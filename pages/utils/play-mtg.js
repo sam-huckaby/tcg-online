@@ -2,7 +2,7 @@
 // import { decrementLifeCounter, incrementLifeCounter } from '../../redux/actions/utils/mtg-tracker.actions';
 import Head from 'next/head';
 
-import MtgTracker from '../../components/utils/gameboard.component';
+import MtgTracker from '../../components/utils/MtgTracker';
 
 export default function MtgLifeCounter() {
     return (

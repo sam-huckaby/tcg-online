@@ -172,6 +172,16 @@
                 &.total-players-5 {
                     height: 33%;
                     width: 50%;
+
+                    .inner-container {
+                        height: 50vw;
+                        width: 33vh;
+                    }
+
+                    .player-menu {
+                        height: 50vw;
+                        width: 33vh;
+                    }
                 }
                 &.total-players-4,
                 &.total-players-3 {

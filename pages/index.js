@@ -33,7 +33,7 @@ export default function Home() {
         </div>
 
         <div className={styles.grid}>
-          <Link href="/utils/mtg-counter">
+          <Link href="/utils/play-mtg">
             <a className={styles.card}>
               <h2>Play Magic &rarr;</h2>
               <p>Use the TCG Online MTG life tracker.</p>

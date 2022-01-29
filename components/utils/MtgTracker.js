@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NoSleep from 'nosleep.js';
 
-import styles from '../../styles/utils/gameboard.module.scss';
+import styles from '../../styles/utils/MtgTracker.module.scss';
 
 let noSleep;
 if (typeof window !== "undefined") {
@@ -266,7 +266,7 @@ function GameBoard(props) {
     function renderPlayers() {
         let tempPlayerTiles = []
         for (let i = 0; i < props.players.length; i++) {
-            tempPlayerTiles.push(<Player key={i} life={props.players[i].life} index={i} totalPlayers={props.players.length} updateLife={updateLife}></Player>);
+            tempPlayerTiles.push(<Player key={i} counters={props.players[i]} index={i} totalPlayers={props.players.length} updateLife={updateLife}></Player>);
         }
         return tempPlayerTiles;
     }
@@ -286,6 +286,9 @@ function GameBoard(props) {
 // Player Class
 // Takes props.life
 function Player(props) {
+    // Setup state values for visuals
+    const [trayOpen, setTrayOpen] = useState(false);
+
     // Setup the classes to color and shape the players
     const classes = `${styles.player} ${styles['player-'+props.index]} ${styles['total-players-'+props.totalPlayers]}`;    
 
@@ -296,20 +299,57 @@ function Player(props) {
     function decrement() {
         props.updateLife(props.index, -1);
     }
+
+    function renderTray() {
+        return <div className={((trayOpen)? 'absolute' : 'hidden') + ` ` + (((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` ${styles['player-menu']}  absolute z-10 overflow-hidden text-base flex flex-row px-2`}>
+            <div className="text-white flex flex-col flex-auto bg-black/75 p-2">
+                <div className="text-lg">Counters</div>
+                <div className="flex-auto flex flex-row justify-around">
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="text-white text-4xl">&#9652;</div>
+                        <div className="text-white">{props?.counters?.commander}</div>
+                        <div className="text-white text-4xl">&#9662;</div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="text-white text-4xl">&#9652;</div>
+                        <div className="text-white">{props?.counters?.poison}</div>
+                        <div className="text-white text-4xl">&#9662;</div>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <div className="text-white text-4xl">&#9652;</div>
+                        <div className="text-white">{props?.counters?.energy}</div>
+                        <div className="text-white text-4xl">&#9662;</div>
+                    </div>
+                </div>
+                <div className="flex flex-row justify-center items-center">
+                    <button onClick={() => setTrayOpen(false)} className="border border-white border-solid h-8 w-8 flex flex-col justify-center items-center">X</button>
+                </div>
+            </div>
+        </div>;
+    }
     
     return (
-        <div className={classes}>
-            {
-                ((props.index+1) % 2 === 0)?
-                    <button className={styles['increment-button']} onClick={increment}>+</button> :
-                    <button className={styles['decrement-button']} onClick={decrement}>-</button>
-            }
-            <span className={(((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` text-black`}>{props.life}</span>
-            {
-                ((props.index+1) % 2 === 1)?
-                    <button className={styles['increment-button']} onClick={increment}>+</button> :
-                    <button className={styles['decrement-button']} onClick={decrement}>-</button>
-            }
+        <div className={`${classes} relative`}>
+            { renderTray() }
+            <div className={(((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` ${styles['inner-container']} flex flex-col px-[12px]`}>
+                <div className="text-black text-base">COUNTERS</div>
+                <div className="flex-auto flex flex-row justify-center items-center">
+                    {
+                        ((props.index+1) % 2 === 0)?
+                            <button className={styles['increment-button']} onClick={increment}>+</button> :
+                            <button className={styles['decrement-button']} onClick={decrement}>-</button>
+                    }
+                    <span>{props?.counters?.life}</span>
+                    {
+                        ((props.index+1) % 2 === 1)?
+                            <button className={styles['increment-button']} onClick={increment}>+</button> :
+                            <button className={styles['decrement-button']} onClick={decrement}>-</button>
+                    }
+                </div>
+                <div className="flex flex-row justify-center items-center pb-2">
+                    <button onClick={() => setTrayOpen(true)} className="text-black border border-solid border-black text-sm p-2 h-8 w-8 flex flex-row justify-center items-center">&equiv;</button>
+                </div>
+            </div>
         </div>
     );
 }
