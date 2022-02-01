@@ -237,17 +237,44 @@ function Game(props) {
         }
     }
 
-    function updateLife(playerIndex, lifeChange) {
+    function updateLife(playerIndex, pointChange) {
         // create a clone of the game's players
         let players = props.players.slice();
         // Update the specified player's life
-        players[playerIndex].life += lifeChange;
+        players[playerIndex].life += pointChange;
+        // Tell the Tracker to update that player's details
+        update(playerIndex, players[playerIndex])
+    }
+
+    function updateCommander(playerIndex, pointChange) {
+        // create a clone of the game's players
+        let players = props.players.slice();
+        // Update the specified player's life
+        players[playerIndex].commander += pointChange;
+        // Tell the Tracker to update that player's details
+        update(playerIndex, players[playerIndex])
+    }
+
+    function updatePoison(playerIndex, pointChange) {
+        // create a clone of the game's players
+        let players = props.players.slice();
+        // Update the specified player's life
+        players[playerIndex].poison += pointChange;
+        // Tell the Tracker to update that player's details
+        update(playerIndex, players[playerIndex])
+    }
+
+    function updateEnergy(playerIndex, pointChange) {
+        // create a clone of the game's players
+        let players = props.players.slice();
+        // Update the specified player's life
+        players[playerIndex].energy += pointChange;
         // Tell the Tracker to update that player's details
         update(playerIndex, players[playerIndex])
     }
 
     function renderGameBoard() {
-        return <GameBoard players={props.players} toggleMenu={toggleMenu} updateLife={updateLife}></GameBoard>;
+        return <GameBoard players={props.players} toggleMenu={toggleMenu} updateLife={updateLife} updateCommander={updateCommander} updatePoison={updatePoison} updateEnergy={updateEnergy}></GameBoard>;
     }
 
     return (
@@ -262,11 +289,14 @@ function GameBoard(props) {
     // Methods passed down from the parent
     const menuHandler = props.toggleMenu;
     const updateLife = props.updateLife;
+    const updateCommander = props.updateCommander;
+    const updatePoison = props.updatePoison;
+    const updateEnergy = props.updateEnergy;
 
     function renderPlayers() {
         let tempPlayerTiles = []
         for (let i = 0; i < props.players.length; i++) {
-            tempPlayerTiles.push(<Player key={i} counters={props.players[i]} index={i} totalPlayers={props.players.length} updateLife={updateLife}></Player>);
+            tempPlayerTiles.push(<Player key={i} counters={props.players[i]} index={i} totalPlayers={props.players.length} updateLife={updateLife} updateCommander={updateCommander} updatePoison={updatePoison} updateEnergy={updateEnergy}></Player>);
         }
         return tempPlayerTiles;
     }
@@ -292,33 +322,59 @@ function Player(props) {
     // Setup the classes to color and shape the players
     const classes = `${styles.player} ${styles['player-'+props.index]} ${styles['total-players-'+props.totalPlayers]}`;    
 
-    function increment() {
+    function incrementLife() {
         props.updateLife(props.index, 1);
     }
 
-    function decrement() {
+    function decrementLife() {
         props.updateLife(props.index, -1);
+    }    
+
+    function incrementCommander() {
+        props.updateCommander(props.index, 1);
+    }
+
+    function decrementCommander() {
+        props.updateCommander(props.index, -1);
+    }    
+
+    function incrementPoison() {
+        props.updatePoison(props.index, 1);
+    }
+
+    function decrementPoison() {
+        props.updatePoison(props.index, -1);
+    }    
+
+    function incrementEnergy() {
+        props.updateEnergy(props.index, 1);
+    }
+
+    function decrementEnergy() {
+        props.updateEnergy(props.index, -1);
     }
 
     function renderTray() {
         return <div className={((trayOpen)? 'absolute' : 'hidden') + ` ` + (((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` ${styles['player-menu']}  absolute z-10 overflow-hidden text-base flex flex-row px-2`}>
             <div className="text-white flex flex-col flex-auto bg-black/75 p-2">
-                <div className="text-lg">Counters</div>
                 <div className="flex-auto flex flex-row justify-around">
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="text-white text-4xl">&#9652;</div>
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Commander</div>
+                        <button onClick={incrementCommander} className="text-white text-4xl">&#9652;</button>
                         <div className="text-white">{props?.counters?.commander}</div>
-                        <div className="text-white text-4xl">&#9662;</div>
+                        <button onClick={decrementCommander} className="text-white text-4xl">&#9662;</button>
                     </div>
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="text-white text-4xl">&#9652;</div>
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Poison</div>
+                        <button onClick={incrementPoison} className="text-white text-4xl">&#9652;</button>
                         <div className="text-white">{props?.counters?.poison}</div>
-                        <div className="text-white text-4xl">&#9662;</div>
+                        <button onClick={decrementPoison} className="text-white text-4xl">&#9662;</button>
                     </div>
-                    <div className="flex flex-col justify-center items-center">
-                        <div className="text-white text-4xl">&#9652;</div>
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Energy</div>
+                        <button onClick={incrementEnergy} className="text-white text-4xl">&#9652;</button>
                         <div className="text-white">{props?.counters?.energy}</div>
-                        <div className="text-white text-4xl">&#9662;</div>
+                        <button onClick={decrementEnergy} className="text-white text-4xl">&#9662;</button>
                     </div>
                 </div>
                 <div className="flex flex-row justify-center items-center">
@@ -332,18 +388,31 @@ function Player(props) {
         <div className={`${classes} relative`}>
             { renderTray() }
             <div className={(((props.index+1) % 2)? 'rotate-90' : '-rotate-90') + ` ${styles['inner-container']} flex flex-col px-[12px]`}>
-                <div className="text-black text-base">COUNTERS</div>
+                <div className="flex-auto flex flex-row justify-around">
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Commander</div>
+                        <div className="text-black text-base">{props?.counters?.commander}</div>
+                    </div>
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Poison</div>
+                        <div className="text-black text-base">{props?.counters?.poison}</div>
+                    </div>
+                    <div className="basis-full flex flex-col justify-center items-center">
+                        <div className="text-xs">Energy</div>
+                        <div className="text-black text-base">{props?.counters?.energy}</div>
+                    </div>
+                </div>
                 <div className="flex-auto flex flex-row justify-center items-center">
                     {
                         ((props.index+1) % 2 === 0)?
-                            <button className={styles['increment-button']} onClick={increment}>+</button> :
-                            <button className={styles['decrement-button']} onClick={decrement}>-</button>
+                            <button className={styles['increment-button']} onClick={incrementLife}>+</button> :
+                            <button className={styles['decrement-button']} onClick={decrementLife}>-</button>
                     }
                     <span>{props?.counters?.life}</span>
                     {
                         ((props.index+1) % 2 === 1)?
-                            <button className={styles['increment-button']} onClick={increment}>+</button> :
-                            <button className={styles['decrement-button']} onClick={decrement}>-</button>
+                            <button className={styles['increment-button']} onClick={incrementLife}>+</button> :
+                            <button className={styles['decrement-button']} onClick={decrementLife}>-</button>
                     }
                 </div>
                 <div className="flex flex-row justify-center items-center pb-2">
