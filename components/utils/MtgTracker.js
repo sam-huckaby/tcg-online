@@ -38,6 +38,38 @@ function MtgTracker() {
     const [playerTurn, setPlayerTurn] = useState(0); // (playerTurn % state.players.length) => tells you whose turn it is
 
     useEffect(() => {
+        let sizeFn;
+
+        if (typeof document !== undefined && typeof window !== undefined) {
+            // Designed with help from:
+            // https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
+            let windowSize = async () => {
+                const storeHeight = () => {
+                    let vh = window.innerHeight * 0.01;
+                    document.documentElement.style.setProperty('--vh', `${vh}px`);
+                };
+                const debounce = (await import('../../utils/helpers')).debounce;
+                sizeFn = debounce(storeHeight);
+
+                window.addEventListener('resize', sizeFn, { passive: true });
+                
+                storeHeight();
+            }
+            windowSize();
+        }
+
+        return () => {
+            // When the component is removed from view, stop listening for sizing
+            window.removeEventListener('resize', sizeFn);
+            if (screen && screen.orientation) {
+                screen.orientation.removeEventListener('change', sizeFn);
+            } else {
+                window.removeEventListener('orientationchange', sizeFn);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
         // If there is localStorage, grab any stored game state
         if (typeof window !== "undefined" && window.localStorage.getItem(GAME_STATE)) {
             let storage = JSON.parse(window.localStorage.getItem(GAME_STATE));
@@ -360,21 +392,21 @@ function Player(props) {
                 <div className="flex-auto flex flex-row justify-around">
                     <div className="basis-full flex flex-col justify-center items-center">
                         <div className="text-xs">Commander</div>
-                        <button onClick={incrementCommander} className="text-white text-4xl">&#9652;</button>
+                        <button onClick={incrementCommander} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9652;</button>
                         <div className="text-white">{props?.counters?.commander}</div>
-                        <button onClick={decrementCommander} className="text-white text-4xl">&#9662;</button>
+                        <button onClick={decrementCommander} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9662;</button>
                     </div>
                     <div className="basis-full flex flex-col justify-center items-center">
                         <div className="text-xs">Poison</div>
-                        <button onClick={incrementPoison} className="text-white text-4xl">&#9652;</button>
+                        <button onClick={incrementPoison} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9652;</button>
                         <div className="text-white">{props?.counters?.poison}</div>
-                        <button onClick={decrementPoison} className="text-white text-4xl">&#9662;</button>
+                        <button onClick={decrementPoison} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9662;</button>
                     </div>
                     <div className="basis-full flex flex-col justify-center items-center">
                         <div className="text-xs">Energy</div>
-                        <button onClick={incrementEnergy} className="text-white text-4xl">&#9652;</button>
+                        <button onClick={incrementEnergy} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9652;</button>
                         <div className="text-white">{props?.counters?.energy}</div>
-                        <button onClick={decrementEnergy} className="text-white text-4xl">&#9662;</button>
+                        <button onClick={decrementEnergy} className="text-white text-4xl w-10 h-10 flex flex-col justify-center items-center">&#9662;</button>
                     </div>
                 </div>
                 <div className="flex flex-row justify-center items-center">
