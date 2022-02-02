@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import NoSleep from 'nosleep.js';
 
 import styles from '../../styles/utils/MtgTracker.module.scss';
@@ -223,7 +224,9 @@ function MtgTracker() {
 
 function Game(props) {
     const [menuOpen, setMenuOpen] = useState(false);
-    const [sleeping, setSleeping] = useState(false)
+    const [sleeping, setSleeping] = useState(false);
+
+    const router = useRouter();
 
     // Grab the parent method to use here
     const restart = props.restart;
@@ -233,6 +236,12 @@ function Game(props) {
         // Put that thing away, and be sure you're done before you restart things
         await toggleMenu();
         restart();
+    }
+
+    async function exit() {
+        await toggleMenu();
+        restart();
+        router.push('/');
     }
 
     function setSleep(turnOn) {
@@ -250,18 +259,20 @@ function Game(props) {
 
     function renderSleepButton() {
         if (sleeping) {
-            return <button className={styles['menu-item']} onClick={() => setSleep(false)}>Disable Stay Awake</button>;
+            return <button className="h-[50px] m-[5px] border border-solid border-neutral-600 bg-white text-neutral-600" onClick={() => setSleep(false)}>Disable Stay Awake</button>;
         } else {
-            return <button className={styles['menu-item']} onClick={() => setSleep(true)}>Enable Stay Awake</button>;
+            return <button className="h-[50px] m-[5px] border border-solid border-neutral-600 bg-white text-neutral-600" onClick={() => setSleep(true)}>Enable Stay Awake</button>;
         }
     }
 
     function renderMenu() {
         if (menuOpen) {
             return (
-                <div className={styles['menu-container']}>
-                    <button className={styles['menu-item']} onClick={reset}>Restart Game</button>
+                <div className={`absolute top-[50px] right-0 bottom-0 left-0 bg-neutral-200 flex flex-col z-10`}>
+                    <button className="h-[50px] m-[5px] border border-solid border-neutral-600 bg-white text-neutral-600" onClick={reset}>Restart Game</button>
                     {renderSleepButton()}
+                    <div className="flex-auto">&nbsp;</div>
+                    <button className="h-[50px] m-[5px] border border-solid border-neutral-600 bg-white text-neutral-600" onClick={exit}>Exit Game</button>
                 </div>
             );
         } else {
