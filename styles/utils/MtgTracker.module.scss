@@ -132,6 +132,8 @@
             flex-direction: row;
             flex-wrap: wrap;
             flex: 1 0 auto;
+            max-height: calc(100vh - 50px);
+            max-height: calc(calc(var(--vh, 1vh) * 100) - 50px) !important;
             
             .player {
                 display: flex;
