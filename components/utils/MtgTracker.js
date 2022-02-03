@@ -446,17 +446,9 @@ function Player(props) {
                     </div>
                 </div>
                 <div className="flex-auto flex flex-row justify-center items-center">
-                    {
-                        ((props.index+1) % 2 === 0)?
-                            <button className={styles['increment-button']} onClick={incrementLife}>+</button> :
-                            <button className={styles['decrement-button']} onClick={decrementLife}>-</button>
-                    }
+                    <button className={styles['decrement-button']} onClick={decrementLife}>-</button>
                     <span>{props?.counters?.life}</span>
-                    {
-                        ((props.index+1) % 2 === 1)?
-                            <button className={styles['increment-button']} onClick={incrementLife}>+</button> :
-                            <button className={styles['decrement-button']} onClick={decrementLife}>-</button>
-                    }
+                    <button className={styles['increment-button']} onClick={incrementLife}>+</button>
                 </div>
                 <div className="flex flex-row justify-center items-center pb-2">
                     <button onClick={() => setTrayOpen(true)} className="text-black border border-solid border-black text-sm p-2 h-8 w-8 flex flex-row justify-center items-center">&equiv;</button>
